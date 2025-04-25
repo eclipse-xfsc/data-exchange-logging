@@ -1,0 +1,478 @@
+{
+  "info": {
+    "_postman_id": "a63ec304-06f8-4d03-82ce-f4420f07d20e",
+    "name": "DELS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "9031010"
+  },
+  "item": [
+    {
+      "name": "admin",
+      "item": [
+        {
+          "name": "settings",
+          "item": [
+            {
+              "name": "update settings",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"SETTING_LOG_PRUNING_CRON\":\"*/4 * * * *\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/api/settings",
+                  "host": ["{{host}}"],
+                  "path": ["api", "settings"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "list settings",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"SETTING_LOG_PRUNING_CRON\":\"*/2 * * * *\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/api/settings",
+                  "host": ["{{host}}"],
+                  "path": ["api", "settings"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Log Integrity",
+          "item": [
+            {
+              "name": "Overview",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            },
+            {
+              "name": "Pause Queue",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Logs",
+          "item": [
+            {
+              "name": "overview",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            },
+            {
+              "name": "dynamics",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            },
+            {
+              "name": "paginate",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "login",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "OPTIONS",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/api/auth/login",
+              "host": ["{{host}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DB Backups Information",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjU2MDYwMzIzLCJleHAiOjE2NTYwNjc1MjN9.MbzmFblwdiPoIy0zqOPQs8JdHwiC2glJrMGREkPZ-sk",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "inbox",
+      "item": [
+        {
+          "name": "callbacks",
+          "item": [
+            {
+              "name": "list webhooks",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/api/callback",
+                  "host": ["{{host}}"],
+                  "path": ["api", "callback"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create webhook",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"url\":\"https://webhook.site/3f4b1405-d654-4cdc-b138-834033b1fbdf\",\r\n    \"method\":\"POST\",\r\n    \"header\":{\r\n        \"Authorization\": \"Bearer token\"\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/api/callback",
+                  "host": ["{{host}}"],
+                  "path": ["api", "callback"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "disable webook",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/api/callback/edaf7978-4a63-43bf-aeaa-52e67e8d565f",
+                  "host": ["{{host}}"],
+                  "path": [
+                    "api",
+                    "callback",
+                    "edaf7978-4a63-43bf-aeaa-52e67e8d565f"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update webhook",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": " {  \r\n           \r\n            \"status\":\"ACTIVE\"\r\n        }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/api/callback/edaf7978-4a63-43bf-aeaa-52e67e8d565f",
+                  "host": ["{{host}}"],
+                  "path": [
+                    "api",
+                    "callback",
+                    "edaf7978-4a63-43bf-aeaa-52e67e8d565f"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Get notification",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/ld+json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/ld+json"
+              },
+              {
+                "key": "Response-Type",
+                "value": "application/ld+json"
+              }
+            ],
+            "url": {
+              "raw": "{{host}}/api/inbox/e7b70e33-0186-4fa7-a5c0-89d599a908a1",
+              "host": ["{{host}}"],
+              "path": ["api", "inbox", "e7b70e33-0186-4fa7-a5c0-89d599a908a1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get filtered notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb"
+              },
+              {
+                "key": "Accept",
+                "value": "application/ld+json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/ld+json"
+              },
+              {
+                "key": "Response-Type",
+                "value": "application/ld+json"
+              }
+            ],
+            "url": {
+              "raw": "{{host}}/api/inbox",
+              "host": ["{{host}}"],
+              "path": ["api", "inbox"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Options notification",
+          "request": {
+            "method": "OPTIONS",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/ld+json"
+              }
+            ],
+            "url": {
+              "raw": "{{host}}/api/inbox",
+              "host": ["{{host}}"],
+              "path": ["api", "inbox"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add notification - Provider",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnYXgtZGNzOmxvZ0lEIjoiMjExNjUzNDktZTBiNy00NjYxLWFmYWYtNGE5ZWJmZGMwZGViIiwiZ2F4LWRjczpkYXRhVHJhbnNhY3Rpb25JRCI6IjEyMyIsImdheC1kY3M6Y29udHJhY3RJRCI6Imh0dHA6Ly9leGFtcGxlLm9yZy9kYXRhLWFzc2V0LTEiLCJpc3MiOiIoTG9nZ2luZyBzZXJ2aWNlIElEKSIsInN1YiI6ImRpZDpwcm92aWRlcjoxMjMiLCJhdWQiOiIoR1gtREVMUyBpZGVudGlmaWVyKSIsImV4cCI6MTY2MTI1NjQxMiwiaWF0IjoxNjYwODI0NDEyfQ.tWFCqb4daL7CQ7FC-c-dbIs5YDjRqzID-vMdkvuOP4E",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/ld+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\",\r\n        {\r\n            \"@id\": \"https://gaia-dataexchange-notification.com/\",\r\n            \"@context\": {\r\n                \"@version\": 1.1,\r\n                \"id\": \"@id\",\r\n                \"type\": \"@type\",\r\n                \"sender\": {\r\n                    \"@id\": \"https://gaia-dataexchange-notification.com/vc#sender\"\r\n                },\r\n                \"receiver\": {\r\n                    \"@id\": \"https://gaia-dataexchange-notification.com/vc#receiver\"\r\n                },\r\n                \"description\": {\r\n                    \"@id\": \"https://gaia-dataexchange-notification.com/vc#description\"\r\n                },\r\n                \"contract\": {\r\n                    \"@id\": \"https://gaia-dataexchange-notification.com/vc#contract\"\r\n                }\r\n            }\r\n        }\r\n    ],\r\n    \"type\": [\r\n        \"VerifiableCredential\"\r\n    ],\r\n    \"credentialSubject\": {\r\n        \"sender\": \"did:provider:123\",\r\n        \"receiver\": \"did:consumer:123\",\r\n        \"description\": \"this is a demo description.\",\r\n        \"contract\": \"http://example.org/data-asset-1\",\r\n        \"type\": \"SendDataNotification\"\r\n    },\r\n    \"issuanceDate\": \"2021-01-23T12:21:23.876Z\",\r\n    \"issuer\": \"did:provider:controller\",\r\n    \"proof\": {\r\n        \"type\": \"Ed25519Signature2018\",\r\n        \"created\": \"2022-09-01T11:11:52Z\",\r\n        \"verificationMethod\": \"did:provider:key:123\",\r\n        \"proofPurpose\": \"assertionMethod\",\r\n        \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..fVZNKzUmoyzoXEDGzmVdHs9wHFPXRov3nqu_5VEXw0xXwR6-jefhUVCC4ckZoXFLsysLvEwLlj7XFG84S55LBw\"\r\n    }\r\n}"
+            },
+            "url": {
+              "raw": "{{host}}/api/inbox",
+              "host": ["{{host}}"],
+              "path": ["api", "inbox"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add notification - Consumer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnYXgtZGNzOmxvZ0lEIjoiMjExNjUzNDktZTBiNy00NjYxLWFmYWYtNGE5ZWJmZGMwZGViIiwiZ2F4LWRjczpkYXRhVHJhbnNhY3Rpb25JRCI6IjEyMyIsImdheC1kY3M6Y29udHJhY3RJRCI6Imh0dHA6Ly9leGFtcGxlLm9yZy9kYXRhLWFzc2V0LTEiLCJpc3MiOiIoTG9nZ2luZyBzZXJ2aWNlIElEKSIsInN1YiI6ImRpZDpjb25zdW1lcjoxMjMiLCJhdWQiOiIoR1gtREVMUyBpZGVudGlmaWVyKSIsImV4cCI6MTY2MTI1NjQxMiwiaWF0IjoxNjYwODI0NDEyfQ.rUQtzr06Jd07qYzI-yTVn-YyG35_vMRu9spXtvljxEA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/ld+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\",\r\n        {\r\n            \"@id\": \"https://gaia-dataexchange-notification.com/\",\r\n            \"@context\": {\r\n                \"@version\": 1.1,\r\n                \"id\": \"@id\",\r\n                \"type\": \"@type\",\r\n                \"sender\": {\r\n                    \"@id\": \"https://gaia-dataexchange-notification.com/vc#sender\"\r\n                },\r\n                \"receiver\": {\r\n                    \"@id\": \"https://gaia-dataexchange-notification.com/vc#receiver\"\r\n                },\r\n                \"description\": {\r\n                    \"@id\": \"https://gaia-dataexchange-notification.com/vc#description\"\r\n                },\r\n                \"contract\": {\r\n                    \"@id\": \"https://gaia-dataexchange-notification.com/vc#contract\"\r\n                }\r\n            }\r\n        }\r\n    ],\r\n    \"type\": [\r\n        \"VerifiableCredential\"\r\n    ],\r\n    \"credentialSubject\": {\r\n        \"receiver\": \"did:provider:123\",\r\n        \"sender\": \"did:consumer:123\",\r\n        \"description\": \"i received data\",\r\n        \"contract\": \"http://example.org/data-asset-1\",\r\n        \"type\": \"ReceivedDataNotification\"\r\n    },\r\n    \"issuanceDate\": \"2021-01-23T12:21:23.876Z\",\r\n    \"issuer\": \"did:consumer:controller\",\r\n    \"proof\": {\r\n        \"type\": \"Ed25519Signature2018\",\r\n        \"created\": \"2022-09-08T09:36:12Z\",\r\n        \"verificationMethod\": \"did:consumer:key:123\",\r\n        \"proofPurpose\": \"assertionMethod\",\r\n        \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..Q7tKfQI6Vd7in0fCql21ujY9h-gF3yB4x4XONkhr4TdUGWlIAwp3epKQYyzFhmWJ5vpIw6qSiZHmghLXV05TCQ\"\r\n    }\r\n}"
+            },
+            "url": {
+              "raw": "{{host}}/api/inbox",
+              "host": ["{{host}}"],
+              "path": ["api", "inbox"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnYXgtZGNzOmxvZ0lEIjoiMjExNjUzNDktZTBiNy00NjYxLWFmYWYtNGE5ZWJmZGMwZGViIiwiZ2F4LWRjczpkYXRhVHJhbnNhY3Rpb25JRCI6IjEyMyIsImdheC1kY3M6Y29udHJhY3RJRCI6Imh0dHA6Ly9leGFtcGxlLm9yZy9kYXRhLWFzc2V0LTEiLCJpc3MiOiIoTG9nZ2luZyBzZXJ2aWNlIElEKSIsInN1YiI6ImRpZDpwcm92aWRlcjoxMjMiLCJhdWQiOiIoR1gtREVMUyBpZGVudGlmaWVyKSIsImV4cCI6MTY2MTI1NjQxMiwiaWF0IjoxNjYwODI0NDEyfQ.tWFCqb4daL7CQ7FC-c-dbIs5YDjRqzID-vMdkvuOP4E",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

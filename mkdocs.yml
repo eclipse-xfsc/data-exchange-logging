@@ -1,0 +1,15 @@
+site_name: DEL
+
+site_url: http://localhost
+
+docs_dir: /docs
+
+theme:
+  name: readthedocs
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Inbox: inbox.md

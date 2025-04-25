@@ -1,0 +1,150 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: del
+  namespace: del
+  labels:
+    app: del
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: del
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/agent-init-first: 'true'
+        vault.hashicorp.com/tls-secret: vault-tls-ca
+        vault.hashicorp.com/ca-cert: '/vault/tls/tls.crt'
+        vault.hashicorp.com/role: 'vault-del'
+        vault.hashicorp.com/agent-inject-secret-del-app: 'del/secret/app'
+        vault.hashicorp.com/agent-inject-template-del-app: |
+          {{- with secret "del/secret/app" -}}
+          export DATABASE_USER={{ .Data.dbuser }}
+          export DATABASE_PASSWORD={{ .Data.dbpass }}
+          export REDIS_PASSWORD={{ .Data.redispass }}
+          export ADMIN_USERNAME={{ .Data.adminuser }}
+          export ADMIN_PASSWORD={{ .Data.adminpass }}
+          export ADMIN_JWT_SECRET_KEY={{ .Data.adminjwt }}
+          {{- end -}}
+      labels:
+        app: del
+    spec:
+      imagePullSecrets:
+        - name: gitlab-access-token
+      serviceAccountName: vault-del
+      containers:
+        - name: del
+          image: registry.gitlab.com/gaia-x/data-infrastructure-federation-services/del/del:e5878d8f
+          command: ['/bin/sh']
+          args:
+            [
+              '-c',
+              'source /vault/secrets/del-app && node dist/apps/api/main.js',
+            ]
+          env:
+            # general
+            - name: NODE_ENV
+              value: 'production'
+            - name: NX_API_ENDPOINT
+              value: '/api'
+
+            # server
+            - name: SERVER_ENDPOINT
+              value: 'https://del-dev3.gxfs.dev'
+            - name: SERVER_THROTLLER_TTL
+              value: '60'
+            - name: SERVER_THROTLLER_LIMIT
+              value: '10'
+
+            #logger
+            ## types "console"/"winston"
+            - name: LOGGER_TYPE
+              value: 'console'
+
+            #- name: DEBUG
+            #  value: "ioredis:*"
+
+            # winston config
+            - name: LOGGER_WINSTON_LEVEL
+              value: 'info'
+            - name: LOGGER_WINSTON_TRANSPORTS_CONSOLE
+              value: 'true'
+            - name: LOGGER_WINSTON_TRANSPORTS_FILE
+              value: 'logs/app.log'
+
+            # cache
+            ## types "memory"/"redis"
+            - name: CACHE_TYPE
+              value: 'redis'
+            - name: CACHE_TTL
+              value: '300'
+
+            # db
+            - name: DATABASE_HOST
+              value: 'del-postgresql-ha-pgpool'
+            - name: DATABASE_PORT
+              value: '5432'
+            # - name: DATABASE_USER
+            # value: "postgres"
+            # - name: DATABASE_PASSWORD
+            # valueFrom:
+            # secretKeyRef:
+            # key: postgresql-password
+            # name: del-postgresql-ha-postgresql
+            - name: DATABASE_DATABASE
+              value: 'postgres'
+
+            ## redis config
+            ## types node/cluster
+            - name: REDIS_TYPE
+              value: 'cluster'
+            - name: REDIS_HOST
+              value: 'dels-redis-cluster'
+            - name: REDIS_PORT
+              value: '6379'
+            # - name: REDIS_PASSWORD
+            #valueFrom:
+            #  secretKeyRef:
+            #    name: dels-redis-cluster
+            #    key: redis-password
+            - name: REDIS_PREFIX
+              value: 'cache'
+
+            # admin config
+            # - name: ADMIN_USERNAME
+            # value: "admin"
+            # - name: ADMIN_PASSWORD
+            # value: "admin"
+            # - name: ADMIN_JWT_SECRET_KEY
+            # value: "dafgsdfgsdfgasdfasdf"
+            - name: ADMIN_JWT_EXPIRES_IN_MINUTES
+              value: '120'
+            - name: BACKUP_LOCATION
+              value: '/backups'
+            - name: BACKUP_CRON
+              value: '*/5 * * * *'
+
+            # admin settings - used to seed default settings
+            - name: SETTING_LOG_RETENTION_PERIOD_DAYS
+              value: '30'
+            - name: SETTING_LOG_PRUNING_CRON
+              value: '*/1 * * * *'
+            - name: SETTING_LOG_INTEGRITY_CRON
+              value: '*/1 * * * *'
+
+            # gateways
+            - name: TRUST_SERVICE_GATEWAY_HOST
+              value: 'https://trust-service.com'
+            - name: CAM_GATEWAY_HOST
+              value: 'http://example.com'
+            - name: DCT_GATEWAY_HOST
+              value: 'http://dct-service.com'
+
+            # Health check
+            - name: DOCUMENTATION_URL
+              value: 'http://api-docs.com'
+          ports:
+            - name: http
+              containerPort: 3000

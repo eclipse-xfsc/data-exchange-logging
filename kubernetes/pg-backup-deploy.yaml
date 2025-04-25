@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-backup
+  namespace: del
+  labels:
+    app: backup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backup
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: backup
+    spec:
+      containers:
+        - name: backup
+          image: kartoza/pg-backup:14-3.3
+          env:
+            - name: DUMPPREFIX
+              value: 'PG'
+            - name: POSTGRES_HOST
+              value: 'del-postgresql-ha-postgresql'
+            #- name: POSTGRES_DBNAME
+            #  value: "postgres"
+            - name: POSTGRES_USER
+              value: 'postgres'
+            - name: POSTGRES_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-password
+                  name: del-postgresql-ha-postgresql
+            - name: POSTGRES_PORT
+              value: '5432'
+            - name: CRON_SCHEDULE
+              value: '*/5 * * * *'
+            - name: DBLIST
+              value: 'postgres'
+            - name: REMOVE_BEFORE
+              value: '30'
+            - name: STORAGE_BACKEND
+              value: 'FILE'
+
+          volumeMounts:
+            - mountPath: /backups
+              name: pg-backup-data
+      restartPolicy: Always
+      volumes:
+        - name: pg-backup-data
+          persistentVolumeClaim:
+            claimName: pg-backup-data

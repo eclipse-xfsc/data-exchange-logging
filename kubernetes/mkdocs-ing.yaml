@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.allow-http: 'false'
+  name: mkdocs-del
+  namespace: del
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: docs-dev3.gxfs.dev
+      http:
+        paths:
+          - backend:
+              service:
+                name: mkdocs-del
+                port:
+                  number: 8000
+            path: /del
+            pathType: Prefix
+  tls:
+    - hosts:
+        - docs-dev3.gxfs.dev
+      secretName: wildcard-gxfs-dev

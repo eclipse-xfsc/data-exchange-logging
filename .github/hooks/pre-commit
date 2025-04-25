@@ -1,0 +1,10 @@
+#!/bin/bash
+npx prettier -c --loglevel silent . > /dev/null
+if [[ $? != 0 ]]; then
+    npx prettier -w --loglevel warn .
+    echo "
+    Applied Prettier changes. Aborting commit.
+    Please add changes to your commit and try again.
+    "
+    exit 1
+fi

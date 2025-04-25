@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mkdocs
+  namespace: del
+  labels:
+    app: mkdocs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mkdocs
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: mkdocs
+    spec:
+      containers:
+        - env:
+            - name: ADD_MODULES
+              value: fontawesome-markdown mkdocs-git-revision-date-localized-plugin mkdocs-material
+            - name: AUTO_UPDATE
+              value: 'true'
+            - name: DOCS_DIRECTORY
+              value: /mkdocs
+            - name: FAST_MODE
+              value: 'true'
+            - name: LIVE_RELOAD_SUPPORT
+              value: 'true'
+            - name: UPDATE_INTERVAL
+              value: '15'
+          image: polinux/mkdocs:latest
+          name: mkdocs
+          ports:
+            - containerPort: 8000
+          resources: {}
+          volumeMounts:
+            - mountPath: /docs
+              name: mkdocs-data1
+            - mountPath: /mkdocs
+              name: mkdocs-data2
+      restartPolicy: Always
+      volumes:
+        - name: mkdocs-data1
+          persistentVolumeClaim:
+            claimName: mkdocs-data1
+        - name: mkdocs-data2
+          persistentVolumeClaim:
+            claimName: mkdocs-data2

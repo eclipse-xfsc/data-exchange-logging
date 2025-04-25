@@ -1,0 +1,68 @@
+{
+  "http://example.com": {
+    "/report-tampered-log": {
+      "onPost": {
+        "status": 200,
+        "response": {
+          "success": true
+        }
+      }
+    }
+  },
+  "http://dct-service.com": {
+    "/log/token/validate?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnYXgtZGNzOmxvZ0lEIjoiMjExNjUzNDktZTBiNy00NjYxLWFmYWYtNGE5ZWJmZGMwZGViIiwiZ2F4LWRjczpkYXRhVHJhbnNhY3Rpb25JRCI6IjEyMyIsImdheC1kY3M6Y29udHJhY3RJRCI6Imh0dHA6Ly9leGFtcGxlLm9yZy9kYXRhLWFzc2V0LTEiLCJpc3MiOiIoTG9nZ2luZyBzZXJ2aWNlIElEKSIsInN1YiI6ImRpZDpwcm92aWRlcjoxMjMiLCJhdWQiOiIoR1gtREVMUyBpZGVudGlmaWVyKSIsImV4cCI6MTY2MTI1NjQxMiwiaWF0IjoxNjYwODI0NDEyfQ.tWFCqb4daL7CQ7FC-c-dbIs5YDjRqzID-vMdkvuOP4E": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "gax-dcs:logID": "21165349-e0b7-4661-afaf-4a9ebfdc0deb",
+          "gax-dcs:dataTransactionID": "123",
+          "gax-dcs:contractID": "http://example.org/data-asset-1",
+          "iss": "(Logging service ID)",
+          "sub": "did:provider:123",
+          "aud": "(GX-DELS identifier)",
+          "exp": 1661256412,
+          "iat": 1660824412
+        }
+      }
+    },
+    "/log/token/validate?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnYXgtZGNzOmxvZ0lEIjoiMjExNjUzNDktZTBiNy00NjYxLWFmYWYtNGE5ZWJmZGMwZGViIiwiZ2F4LWRjczpkYXRhVHJhbnNhY3Rpb25JRCI6IjEyMyIsImdheC1kY3M6Y29udHJhY3RJRCI6Imh0dHA6Ly9leGFtcGxlLm9yZy9kYXRhLWFzc2V0LTEiLCJpc3MiOiIoTG9nZ2luZyBzZXJ2aWNlIElEKSIsInN1YiI6ImRpZDpjb25zdW1lcjoxMjMiLCJhdWQiOiIoR1gtREVMUyBpZGVudGlmaWVyKSIsImV4cCI6MTY2MTI1NjQxMiwiaWF0IjoxNjYwODI0NDEyfQ.rUQtzr06Jd07qYzI-yTVn-YyG35_vMRu9spXtvljxEA": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "gax-dcs:logID": "21165349-e0b7-4661-afaf-4a9ebfdc0deb",
+          "gax-dcs:dataTransactionID": "123",
+          "gax-dcs:contractID": "http://example.org/data-asset-1",
+          "iss": "(Logging service ID)",
+          "sub": "did:consumer:123",
+          "aud": "(GX-DELS identifier)",
+          "exp": 1661256412,
+          "iat": 1660824412
+        }
+      }
+    }
+  },
+  "https://trust-service.com": {
+    "/get-key?did=did:provider:key:123": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "id": "did:provider:key:123",
+          "type": "Ed25519VerificationKey2018",
+          "controller": "did:provider:controller",
+          "publicKeyBase58": "Hera6o42v5TtK5pAXVJyCF1yGFnrPedPLGL3YuQUALmp"
+        }
+      }
+    },
+    "/get-key?did=did:consumer:key:123": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "id": "did:consumer:key:123",
+          "type": "Ed25519VerificationKey2018",
+          "controller": "did:consumer:controller",
+          "publicKeyBase58": "DKtCMG25dPChEPSWkStZqRXLgUo1j4JSeB8rJyLPDzwn"
+        }
+      }
+    }
+  }
+}

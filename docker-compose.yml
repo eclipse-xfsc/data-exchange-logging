@@ -1,0 +1,97 @@
+version: '3.9'
+services:
+  nestjs:
+    build:
+      context: .
+    ports:
+      - '3000:3000'
+    links:
+      - 'redis:redis'
+    depends_on:
+      - db
+      - redis
+    networks:
+      - delnet
+    environment:
+      - REDIS_HOST=redis
+      - DATABASE_HOST=postgres-db
+      - BACKUP_CRON=${BACKUP_CRON}
+      - BACKUP_LOCATION=/backups
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_DATABASE=${DATABASE_DATABASE}
+    volumes:
+      - db-backups:/backups
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redisdata:/data'
+    networks:
+      - delnet
+  db:
+    image: postgres:14.3
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_DATABASE}
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'dbdata:/var/lib/postgres/data'
+    container_name: postgres-db
+    healthcheck:
+      test: 'exit 0'
+    networks:
+      - delnet
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - '8081:8081'
+    networks:
+      - delnet
+  dbbackups:
+    image: kartoza/pg-backup:14-3.3
+    volumes:
+      - db-backups:/backups
+    environment:
+      - DUMPPREFIX=PG
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASS=${DATABASE_PASSWORD}
+      - POSTGRES_PORT=5432
+      - CRON_SCHEDULE="${BACKUP_CRON}"
+      - DBLIST=${DATABASE_DATABASE}
+      - REMOVE_BEFORE=30
+      - STORAGE_BACKEND=FILE
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - delnet
+  mkdocs-dels:
+    container_name: mkdocs-dels
+    image: polinux/mkdocs:latest
+    restart: always
+    ports:
+      - '8000:8000'
+    environment:
+      - LIVE_RELOAD_SUPPORT=true
+      - ADD_MODULES=fontawesome-markdown mkdocs-git-revision-date-localized-plugin mkdocs-material
+      - FAST_MODE=true
+      - DOCS_DIRECTORY=/mkdocs
+      - UPDATE_INTERVAL=15
+      - AUTO_UPDATE=true
+    volumes:
+      - ./docs:/docs
+      - ./:/mkdocs
+volumes:
+  dbdata:
+  redisdata:
+  db-backups:
+networks:
+  delnet:
