@@ -70,7 +70,7 @@
     "@nestjs/config": "^2.1.0",
     "@nestjs/core": "^9.0.11",
     "@nestjs/event-emitter": "^1.1.1",
-    "@nestjs/jwt": "^8.0.1",
+    "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^8.2.2",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
