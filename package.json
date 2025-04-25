@@ -100,7 +100,7 @@
     "filesize": "^9.0.9",
     "graphql": "^16.5.0",
     "i": "^0.3.7",
-    "ioredis": "^5.2.3",
+    "ioredis": "^5.6.1",
     "joi": "^17.6.0",
     "jsonld": "^8.1.0",
     "jsonld-signatures": "^10.0.0",
