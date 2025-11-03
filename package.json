@@ -16,7 +16,7 @@
   "private": true,
   "devDependencies": {
     "@digitalbazaar/ed25519-signature-2018": "^2.1.0",
-    "@digitalbazaar/ed25519-verification-key-2018": "^3.2.0",
+    "@digitalbazaar/ed25519-verification-key-2018": "^4.0.0",
     "@digitalcredentials/vc": "^4.1.1",
     "@nestjs/schematics": "^9.0.2",
     "@nestjs/testing": "^9.0.11",
